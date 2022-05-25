@@ -1,0 +1,8 @@
+websocket:
+  redis:
+    database: 0
+    host: "redis://localhost:6379"
+  port: 10086
+  time:
+    session-id-max-alive: 60000
+    stop-pull-msg-interval: 100

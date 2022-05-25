@@ -1,0 +1,31 @@
+{
+  "properties": [
+    {
+      "name": "websocket.redis.host",
+      "type": "java.lang.String",
+      "description": "redis的服务器地址 默认localhost:9379",
+      "defaultValue": "localhost:9379"
+    },
+    {
+      "name": "websocket.redis.database",
+      "type": "java.lang.Integer",
+      "description": "redis的数据库 默认 0",
+      "defaultValue": 0
+    },
+    {
+      "name": "websocket.redis.password",
+      "type": "java.lang.String",
+      "description": "redis的服务器密码"
+    },
+    {
+      "name": "session.maxAlive",
+      "type": "java.lang.Long",
+      "description": "session最大缓存时间"
+    },
+    {
+      "name": "pullMessage.interval",
+      "type": "java.lang.Long",
+      "description": "拉取消息阻塞间隔"
+    }
+  ]
+}
