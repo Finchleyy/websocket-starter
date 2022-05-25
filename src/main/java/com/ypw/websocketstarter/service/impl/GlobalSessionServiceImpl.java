@@ -38,6 +38,7 @@ public class GlobalSessionServiceImpl implements GlobalSessionService {
         String sessionId = currentSession.getSessionId().toString();
         //加入房间
         currentSession.joinRoom(message.getRoomId());
+        LocalSessionCache.addLocalClient(redisSessionCacheHelper.getGlobalSessionId(systemProperty.getNodeName(), sessionId), currentSession);
         //注册机器和 session 关系
         redisSessionCacheHelper.register(currentSession.getSessionId().toString(), systemProperty.getNodeName());
         //注册 room 和 session 关系
@@ -63,10 +64,10 @@ public class GlobalSessionServiceImpl implements GlobalSessionService {
     @Override
     public void sendGlobalRoomMessage(SocketIOClient currentSession, List<String> currentNodeRoomUserSessionIdList, String roomId, Object message, String messageType) {
         try {
-            if (Objects.isNull(LocalSessionCache.getLocalClient(currentSession.getSessionId().toString()))) {
+            String sessionId = currentSession.getSessionId().toString();
+            if (Objects.isNull(LocalSessionCache.getLocalClient(redisSessionCacheHelper.getGlobalSessionId(systemProperty.getNodeName(), sessionId)))) {
                 return;
             }
-            String sessionId = currentSession.getSessionId().toString();
             //有些 session 过滤器会过滤掉本机 session,这里重新加回来
             currentNodeRoomUserSessionIdList.add(redisSessionCacheHelper.getGlobalSessionId(systemProperty.getNodeName(), sessionId));
             currentNodeRoomUserSessionIdList.forEach(e -> log.info("current node global sessionId list==========================>{}", e));
@@ -88,7 +89,7 @@ public class GlobalSessionServiceImpl implements GlobalSessionService {
             }
             log.info("other node session count=============================>{}", otherNodeSessionList.size());
             //向其它 node 所在的 session 发送消息,向目标 session 所在机器队列写入消息
-            otherNodeSessionList.forEach(e -> redisSessionCacheHelper.pushMsgToList(e.getNodeName(), JSON.toJSONString(buildGlobalEvent(e.getGlobalSessionId(), message, messageType))));
+            otherNodeSessionList.forEach(e -> redisSessionCacheHelper.pushMsgToList(e.getNodeName(), JSON.toJSONString(buildGlobalEvent(e.getNodeSessionId(), e.getGlobalSessionId(), message, messageType))));
         } catch (Exception e) {
             log.warn("发送全局房间消息异常:{}", e.getMessage());
         }
@@ -103,7 +104,7 @@ public class GlobalSessionServiceImpl implements GlobalSessionService {
             return;
         }
         //向该用户所在消息队列写消息
-        redisSessionCacheHelper.pushUserMsgToList(userDaemonRelation.getNodeName(), JSON.toJSONString(buildGlobalEvent(userDaemonRelation.getGlobalSessionId(), message, messageType)));
+        redisSessionCacheHelper.pushUserMsgToList(userDaemonRelation.getNodeName(), JSON.toJSONString(buildGlobalEvent(userDaemonRelation.getNodeSessionId(), userDaemonRelation.getGlobalSessionId(), message, messageType)));
     }
 
     @Override
@@ -120,7 +121,7 @@ public class GlobalSessionServiceImpl implements GlobalSessionService {
         }
     }
 
-    public GlobalRedisEventWrapper buildGlobalEvent(String globalSessionId, Object data, String messageType) {
-        return new GlobalRedisEventWrapper(globalSessionId, data, messageType);
+    public GlobalRedisEventWrapper buildGlobalEvent(String nodeSessionId, String globalSessionId, Object data, String eventType) {
+        return new GlobalRedisEventWrapper(nodeSessionId, globalSessionId, data, eventType);
     }
 }

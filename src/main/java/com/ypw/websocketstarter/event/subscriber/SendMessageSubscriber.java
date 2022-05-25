@@ -27,11 +27,11 @@ public class SendMessageSubscriber {
     private ConfigProperties configProperty;
 
     //spel表达式判断重试才会进入这个监听器
-    @EventListener(condition = "#redisEventWrapper.eventType.equals('send')")
+    @EventListener(condition = "#redisEventWrapper.eventType.equals('roomEvent')")
     public void messageRetry(GlobalRedisEventWrapper redisEventWrapper) {
         try {
             SocketIOClient localClient = LocalSessionCache.getLocalClient(redisEventWrapper.getGlobalSessionId());
-            localClient.sendEvent("test SendMessageSubscriber");
+            localClient.sendEvent(redisEventWrapper.getEventType(), redisEventWrapper.getData());
         } catch (Exception e) {
             log.info("SendMessageSubscriber error {}", e.getMessage());
         }

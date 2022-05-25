@@ -38,15 +38,16 @@ public class GlobalRedisEventWrapper implements Serializable {
     /**
      * 重试次数
      */
-    private Integer retryCount;
+    private int retryCount;
     /**
      * 租户 ID
      */
     private Long tenantId;
 
-    public GlobalRedisEventWrapper(String globalSessionId, Object data, String messageType) {
+    public GlobalRedisEventWrapper(String nodeSessionId, String globalSessionId, Object data, String eventType) {
         this.globalSessionId = globalSessionId;
+        this.nodeSessionId = nodeSessionId;
         this.data = data;
-        this.eventName = messageType;
+        this.eventType = eventType;
     }
 }

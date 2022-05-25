@@ -43,7 +43,7 @@
     <script>
 
         var userId = Math.floor((Math.random() * 1000) + 1);
-        var roomId = 888;
+        var roomId = "FAC_ROOM_ID_TEST!!!!";
         var socket = io.connect('http://localhost:10086');
 
         socket.on('connect', function () {
@@ -51,8 +51,9 @@
         });
 
         socket.on('roomEvent', function (data) {
-            output('<span class="username-msg">' + data + ':</span> ' + data);
-            output('<span class="username-msg">' + data.roomId + ':</span> ' + data.content);
+            output('<span class="username-msg">服务端返回内容</span>' + data);
+            var parse = JSON.parse(data);
+            output('<span class="username-msg">解析到服务端返回内容:</span> ' + parse.content);
         });
 
         socket.on('disconnect', function () {
@@ -72,7 +73,8 @@
                 roomId: roomId,
                 type: 0
             };
-            socket.emit('roomEvent', jsonObject);
+            socket.emit('roomEvent', JSON.stringify(jsonObject));
+            output('<span class="username-msg">发送消息内容:</span> ' + jsonObject.content);
         }
 
         function output(message) {
@@ -100,7 +102,7 @@
 
 <form class="well form-inline" onsubmit="return false;">
     <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
-    <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+    <button id="send" type="button" onClick="sendMessage()" class="btn">Send</button>
     <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
 </form>
 

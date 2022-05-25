@@ -31,7 +31,9 @@ public class RedissonAutoConfiguration {
                 .setDatabase(websocketRedisProperties.getDatabase())
                 .setConnectionPoolSize(200)
                 .setPassword(websocketRedisProperties.getPassword())
-                .setUsername(websocketRedisProperties.getUsername());
+                .setUsername(websocketRedisProperties.getUsername())
+                .setKeepAlive(true)
+                .setTimeout(3000);
         return Redisson.create(config);
     }
 
