@@ -1,7 +1,9 @@
 package com.ypw.websocketstarter.config;
 
 import com.ypw.websocketstarter.model.SystemProperty;
+import com.ypw.websocketstarter.properties.WebsocketProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +14,7 @@ import java.util.UUID;
  * @author hongmeng
  */
 @Slf4j
+@EnableConfigurationProperties(value = WebsocketProperties.class)
 @Configuration
 public class SystemPropertyConfig {
 

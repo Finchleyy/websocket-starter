@@ -37,6 +37,8 @@ public class SessionRoomEventLoop implements InitializingBean {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    ThreadPoolExecutor threadPoolExecutor;
+
     @SuppressWarnings("InfiniteLoopStatement")
     @Override
     public void afterPropertiesSet() {
@@ -65,7 +67,7 @@ public class SessionRoomEventLoop implements InitializingBean {
                 }
             }
         };
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+        threadPoolExecutor = new ThreadPoolExecutor(
                 1,
                 1,
                 0L,
@@ -92,5 +94,9 @@ public class SessionRoomEventLoop implements InitializingBean {
             //可能因为链接异常断开导致队列消息一直无法被消费,这里要加一个最大重试次数,丢弃消息
             eventPublisher.publishEvent(redisEventWrapper);
         }
+    }
+
+    public void stop() {
+        threadPoolExecutor.shutdown();
     }
 }
