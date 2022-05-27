@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
+ * 全局消息的监听器(这个自定义实现)
+ *
  * @author hongmeng
  * @date 2022/5/10
  */
@@ -26,7 +28,7 @@ public class SendMessageSubscriber {
     @Resource
     private ConfigProperties configProperty;
 
-    //spel表达式判断重试才会进入这个监听器
+    //spel表达式相应eventType
     @EventListener(condition = "#redisEventWrapper.eventType.equals('roomEvent')")
     public void messageRetry(GlobalRedisEventWrapper redisEventWrapper) {
         try {
