@@ -27,6 +27,8 @@ public class WebsocketStarterApplication implements CommandLineRunner {
     @PreDestroy
     public void shutdown() {
         //sessionRoomEventLoop.stop();
+        //缓存清理
+        //服务器关闭
         socketIoServer.stop();
     }
 }
