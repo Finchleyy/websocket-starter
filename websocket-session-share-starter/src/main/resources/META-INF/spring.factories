@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ypw.websocketstarter.config.RedissonAutoConfiguration,\
+    com.ypw.websocketstarter.config.NettySocketIoAutoConfig

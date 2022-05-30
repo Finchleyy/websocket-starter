@@ -1,18 +1,21 @@
-package com.ypw.websocketstarter;
+package com.ypw.websocket;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
+/**
+ * Hello world!
+ */
 @SpringBootApplication
 @EnableAsync
 public class WebsocketStarterApplication implements CommandLineRunner {
-    @Autowired
+    @Resource(name = "customSocketIOServer")
     private SocketIOServer socketIoServer;
 
     public static void main(String[] args) {

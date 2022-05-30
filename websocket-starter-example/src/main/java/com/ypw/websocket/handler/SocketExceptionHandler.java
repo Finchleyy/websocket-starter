@@ -1,4 +1,4 @@
-package com.ypw.websocketstarter.handler;
+package com.ypw.websocket.handler;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ExceptionListener;
@@ -27,7 +27,7 @@ public class SocketExceptionHandler implements ExceptionListener {
 
     @Override
     public void onConnectException(Exception e, SocketIOClient client) {
-        log.error("房间连接异常:{}", e.getMessage());
+        log.error("连接异常:{}", e.getMessage());
         client.sendEvent("error", e.getMessage());
         client.disconnect();
     }

@@ -2,8 +2,6 @@ package com.ypw.websocketstarter.config;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
-import com.ypw.websocketstarter.handler.SocketExceptionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +10,12 @@ import org.springframework.context.annotation.Configuration;
  * @author hongmeng
  */
 @Configuration
-public class NettySocketIoConfig {
+public class NettySocketIoAutoConfig {
     @Value("${websocket.port}")
     private Integer socketPort;
-    @Autowired
-    private SocketExceptionHandler socketExceptionHandler;
 
-    @Bean
-    public SocketIOServer getServer() {
+    @Bean("SocketIOServerTemplate")
+    public SocketIOServer SocketIOServerTemplate() {
         //netty-socket io服务器
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         //端口
@@ -34,13 +30,13 @@ public class NettySocketIoConfig {
         config.setMaxHttpContentLength(64 * 1024);
         //认证
         config.setAuthorizationListener(data -> {
-            //TODO 认证
+            //认证
             return true;
         });
         //跨域请求
         config.setOrigin(null);
-        //异常处理
-        config.setExceptionListener(socketExceptionHandler);
+        //异常处理,这个使用方自行注入
+        //config.setExceptionListener(socketExceptionHandler);
         return new SocketIOServer(config);
     }
 
@@ -49,7 +45,7 @@ public class NettySocketIoConfig {
      */
     @Bean
     public SpringAnnotationScanner springAnnotationScanner() {
-        return new SpringAnnotationScanner(getServer());
+        return new SpringAnnotationScanner(SocketIOServerTemplate());
     }
 
 
