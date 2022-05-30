@@ -16,7 +16,7 @@ import java.util.UUID;
 @Slf4j
 @EnableConfigurationProperties(value = WebsocketProperties.class)
 @Configuration
-public class SystemPropertyConfig {
+public class SystemPropertyAutoConfig {
 
     @Bean
     public SystemProperty systemProperty() {

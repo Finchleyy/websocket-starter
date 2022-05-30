@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @date 2022/4/7
  */
 @Slf4j
-@Service
+@Component
 public class GlobalSessionServiceImpl implements GlobalSessionService {
     @Autowired
     private RedisSessionCacheHelper redisSessionCacheHelper;

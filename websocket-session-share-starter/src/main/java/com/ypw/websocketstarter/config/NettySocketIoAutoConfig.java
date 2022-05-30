@@ -2,7 +2,12 @@ package com.ypw.websocketstarter.config;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+import com.ypw.websocketstarter.cache.RedisSessionCacheHelper;
+import com.ypw.websocketstarter.service.GlobalSessionService;
+import com.ypw.websocketstarter.service.impl.GlobalSessionServiceImpl;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -48,5 +53,16 @@ public class NettySocketIoAutoConfig {
         return new SpringAnnotationScanner(SocketIOServerTemplate());
     }
 
+    @Bean
+    @ConditionalOnClass(RedissonClient.class)
+    public RedisSessionCacheHelper redisSessionCacheHelper() {
+        return new RedisSessionCacheHelper();
+    }
+
+    @Bean
+    @ConditionalOnClass({RedisSessionCacheHelper.class, SystemPropertyAutoConfig.class})
+    public GlobalSessionService globalSessionService() {
+        return new GlobalSessionServiceImpl();
+    }
 
 }
