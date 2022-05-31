@@ -24,7 +24,7 @@ public interface GlobalSessionService {
      * 发送 room 全局消息,过滤掉本机session
      *
      * @param currentSession           currentSession
-     * @param currentNodeSessionIdList 本机 session 用户(需要过滤掉)
+     * @param currentNodeSessionIdList 本机 session 用户(需要过滤掉的 session)
      * @param roomId                   房间 ID
      * @param message                  消息内容
      * @param messageType              消息类型(自定义)

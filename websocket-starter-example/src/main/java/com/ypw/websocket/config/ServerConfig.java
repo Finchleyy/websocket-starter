@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(SocketIOServer.class)
 public class ServerConfig {
     @Autowired
-    SocketExceptionHandler socketExceptionHandler;
+    private SocketExceptionHandler socketExceptionHandler;
 
     @Bean("customSocketIOServer")
     public SocketIOServer customSocketIOServer(SocketIOServer SocketIOServerTemplate) {

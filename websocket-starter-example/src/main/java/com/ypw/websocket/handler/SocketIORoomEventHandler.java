@@ -1,8 +1,8 @@
 package com.ypw.websocket.handler;
 
+import com.alibaba.fastjson2.JSON;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
 import com.google.common.collect.Lists;
@@ -40,12 +40,13 @@ public class SocketIORoomEventHandler {
     }
 
     @OnEvent(value = "roomEvent")
-    public void onEvent(SocketIOClient client, AckRequest request, Message message) {
-        log.info("事件{}发来消息：{}", "roomEvent", message);
+    public void onEvent(SocketIOClient client, AckRequest request, String msg) {
+        log.info("事件{}发来消息：{}", "roomEvent", msg);
         String sessionId = client.getSessionId().toString();
         //回发消息
-        client.sendEvent("roomEvent", message);
-        //绑定房间信息
+        client.sendEvent("roomEvent", msg);
+        Message message = JSON.parseObject(msg, Message.class);
+        //绑定房间信息 //TODO 这里可以再封装一下
         message.setNodeName(systemProperty.getNodeName());
         message.setNodeSessionId(sessionId);
         message.setGlobalSessionId(redisSessionCacheHelper.getGlobalSessionId(systemProperty.getNodeName(), sessionId));

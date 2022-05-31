@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 /**
- * Hello world!
+ * 启动配置类
  */
 @SpringBootApplication
 @EnableAsync

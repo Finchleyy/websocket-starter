@@ -21,8 +21,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @ConditionalOnClass(WebsocketRedisProperties.class)
 @Configuration
-@EnableConfigurationProperties({WebsocketRedisProperties.class, ConfigProperties.class})
-public class RedissonAutoConfiguration {
+@EnableConfigurationProperties({WebsocketRedisProperties.class})
+public class RedissonAutoConfig {
     @Bean(name = "websocketRedissonClient")
     RedissonClient websocketRedissonClient(WebsocketRedisProperties websocketRedisProperties) {
         Config config = new Config();

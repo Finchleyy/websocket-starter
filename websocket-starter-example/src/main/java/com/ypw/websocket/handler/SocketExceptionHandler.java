@@ -17,12 +17,12 @@ import java.util.List;
 public class SocketExceptionHandler implements ExceptionListener {
     @Override
     public void onEventException(Exception e, List<Object> args, SocketIOClient client) {
-
+        //do something
     }
 
     @Override
     public void onDisconnectException(Exception e, SocketIOClient client) {
-
+        //do something
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SocketExceptionHandler implements ExceptionListener {
 
     @Override
     public void onPingException(Exception e, SocketIOClient client) {
-
+        //do something
     }
 
     @Override

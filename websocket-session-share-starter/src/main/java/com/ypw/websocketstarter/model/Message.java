@@ -6,15 +6,20 @@
 
 package com.ypw.websocketstarter.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * Function: 消息实体
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Accessors(chain = true)
-public class Message {
+public class Message implements Serializable {
     /**
      * 消息Id，唯一标识
      */
